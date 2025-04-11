@@ -3,7 +3,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 import mlflow
-import mlflow.sklearn
 
 X, y = make_classification(n_samples=1000, n_features=20, n_classes=2, random_state=42)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -18,6 +17,8 @@ params_list = [
 ]
 
 best_acc = 0
+best_model = None
+best_params = None
 
 for params in params_list:
     with mlflow.start_run():
@@ -31,4 +32,15 @@ for params in params_list:
 
         if acc > best_acc:
             best_acc = acc
-            mlflow.sklearn.log_model(clf, "model", registered_model_name="BestClassifierModel")
+            best_model = clf
+            best_params = params
+
+# ✅ Log lại model tốt nhất vào Registry sau cùng
+with mlflow.start_run(run_name="Register Best Model"):
+    mlflow.log_params(best_params)
+    mlflow.sklearn.log_model(
+        sk_model=best_model,
+        artifact_path="model",
+        registered_model_name="BestClassifierModel"
+    )
+    mlflow.log_metric("accuracy", best_acc)
