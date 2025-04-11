@@ -11,10 +11,10 @@ html_template = """
 <!doctype html>
 <html>
 <head>
-    <title>ML Prediction & Model Stage App</title>
+    <title>MLops Project</title>
 </head>
 <body>
-    <h2>🔍 Dự đoán phân loại với mô hình MLflow</h2>
+    <h2>Dự đoán phân loại với mô hình MLflow</h2>
     <form method="post">
         <button type="submit" name="action" value="predict">Dự đoán với dữ liệu mẫu</button>
     </form>
@@ -24,7 +24,7 @@ html_template = """
 
     <hr>
 
-    <h2>🚀 Chuyển version sang Production</h2>
+    <h2>Chuyển version sang Production</h2>
     <form method="post">
         <label>Nhập Version:</label>
         <input type="number" name="version" required>
